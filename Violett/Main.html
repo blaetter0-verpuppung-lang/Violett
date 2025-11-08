@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>December Group</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: "Courier New", monospace;
+      background: #000;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    
+    .intro {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  opacity: 1; 
+  pointer-events: all; 
+}
+
+
+
+    .intro h3 {
+      font-size: 2rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .intro h3:hover {
+      transform: scale(1.05);
+      opacity: 0.8;
+    }
+
+    .intro.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    
+    .main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .main.show {
+      opacity: 1;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url("back.jpg") center/cover no-repeat;
+      opacity: 0.15;
+      z-index: 0;
+    }
+
+    
+    .circle {
+      width: 120px;
+      height: 120px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      margin-bottom: 20px;
+      background: url("534534535.jpg") center/cover no-repeat;
+    }
+
+    h2 {
+      letter-spacing: 4px;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-style: italic;
+      color: #bbb;
+      margin-bottom: 20px;
+    }
+
+    
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .buttons button {
+      background: transparent;
+      color: #fff;
+      border: 1px solid #fff;
+      border-radius: 25px;
+      padding: 8px 18px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .buttons button:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    
+    .social-icons {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 30px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.5s ease;
+      pointer-events: none;
+    }
+
+    .social-icons.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    .icon-circle {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .icon-circle:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+    }
+
+    .icon-circle img {
+      width: 24px;
+      height: 24px;
+      filter: invert(1);
+    }
+
+    
+    .roster-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      background: rgba(20, 20, 20, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 20px;
+      width: 320px;
+      max-height: 70vh;
+      overflow-y: auto;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s ease;
+      z-index: 20;
+    }
+
+    .roster-container.show {
+      opacity: 1;
+      pointer-events: all;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .member {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .member img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .member span {
+      font-size: 1rem;
+      color: #fff;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      color: #fff;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+    
+    }
+
+  
+
+   
+  </style>
+</head>
+<body>
+  
+  
+  <div class="intro" id="intro">
+    <h4 id="enterText">Only baddies can open...</h4>
+  </div>
+
+  
+  <div class="main" id="main">
+    <div class="circle"></div>
+    <h2>Violett</h2>
+    <p>2018-2025</p>
+    <div class="buttons">
+      <button id="rosterBtn">Friends</button>
+      <button id="socialBtn">socials</button>
+    </div>
+
+    
+    <div class="social-icons" id="socialIcons">
+      <div class="icon-circle" id="discord">
+        <img src="main.png" alt="Discord" />
+      </div>
+      <div class="icon-circle" id="telegram">
+        <img src="2main.webp" alt="Telegram" />
+      </div>
+    </div>
+  </div>
+
+ 
+  <div class="roster-container" id="rosterContainer">
+  <button class="close-btn" id="closeRoster">✕</button>
+  <h3 style="text-align:center; margin-bottom:15px; letter-spacing:2px;">Friends</h3>
+
+  <div class="member">
+    <img src="1.webp" alt="Oxide">
+    <span>Fraud764</span>
+  </div>
+
+  <div class="member">
+    <img src="2.webp" alt="Necro">
+    <span>wias</span>
+  </div>
+
+  <div class="member">
+    <img src="3.webp" alt="Demise">
+    <span>Knifed</span>
+  </div>
+
+  <div class="member">
+    <img src="4.jpg" alt="Suffer764">
+    <span>turk</span>
+  </div>
+
+  <div class="member">
+    <img src="5.webp" alt="Gores/Zack">
+    <span>reauth</span>
+  </div>
+
+  <div class="member">
+    <img src="6.webp" alt="Gore">
+    <span>Suffer764</span>
+  </div>
+
+  <div class="member">
+    <img src="7.png" alt="Suffer764">
+    <span>fear</span>
+  </div>
+
+  <div class="member">
+    <img src="8.png" alt="Gores/Zack">
+    <span>eyepatch</span>
+  </div>
+
+  <div class="member">
+    <img src="9.png" alt="Gore">
+    <span>gothic</span>
+  </div>
+
+  <div class="member">
+    <img src="11.png" alt="Gore">
+    <span>BloodTube</span>
+  </div>
+
+  <div class="member">
+    <img src="12.webp" alt="Gore">
+    <span>Vans</span>
+  </div>
+
+  <div class="member">
+    <img src="13.webp" alt="Gore">
+    <span>4zurf</span>
+  </div>
+
+  <div class="member">
+    <img src="de.webp" alt="Gore">
+    <span>Demise</span>
+  </div>
+</div>
+
+
+  <script>
+    const intro = document.getElementById("intro");
+    const enterText = document.getElementById("enterText");
+    const main = document.getElementById("main");
+    const socialBtn = document.getElementById("socialBtn");
+
+    const socialIcons = document.getElementById("socialIcons");
+    const discord = document.getElementById("discord");
+    const telegram = document.getElementById("telegram");
+    const rosterBtn = document.getElementById("rosterBtn");
+
+    const rosterContainer = document.getElementById("rosterContainer");
+    const closeRoster = document.getElementById("closeRoster");
+
+    
+    enterText.addEventListener("click", () => {
+      intro.classList.add("fade-out");
+      setTimeout(() => {
+        main.classList.add("show");
+        intro.remove();
+      }, 1000);
+    });
+
+    
+    socialBtn.addEventListener("click", () => {
+      socialIcons.classList.toggle("show");
+    });
+
+    
+
+setTimeout(() => {
+  intro.classList.add("fade-out");
+  setTimeout(() => {
+    main.classList.add("show");
+    intro.remove();
+  }, 1000); 
+}, 3000); 
+
+
+
+
+    discord.addEventListener("click", () => {
+      window.open("https://discord.com/users/1429504790466924594", "_blank");
+    });
+
+    telegram.addEventListener("click", () => {
+      window.open("https://t.me/rareopsec", "_blank");
+    });
+
+    
+    rosterBtn.addEventListener("click", () => {
+      rosterContainer.classList.add("show");
+    });
+
+    
+    closeRoster.addEventListener("click", () => {
+      rosterContainer.classList.remove("show");
+    });
+  </script>
+</body>
+</html>
